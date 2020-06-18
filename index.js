@@ -38,7 +38,7 @@ World.add(world, walls);
 // Maze generation
 const grid = Array(cells)
     .fill(null)
-    .map(() => { Array(cells).fill(false)});
+    .map(() => Array(cells).fill(false));
 
 // Verticals & horizontals
 
@@ -53,3 +53,22 @@ const horizontals = Array(cells - 1)
 // Picking random starting cell
 const startRow = Math.floor(Math.random() * cells);
 const startColumn = Math.floor(Math.random() * cells);
+
+// Iterating through maze cells
+const stepThroughCell = (row, column) => {
+
+    console.log('before if');
+    if(grid[row][column]) {
+        return;
+    }
+    grid[row][column] = true;
+    const neighbors = [
+        [row - 1, column],
+        [row, columt - 1],
+        [row + 1, column],
+        [row, column - 1]
+    ]
+}
+
+stepThroughCell(startRow, startColumn);
+console.log(grid);
