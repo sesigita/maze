@@ -50,3 +50,6 @@ const horizontals = Array(cells - 1)
     .fill(null)
     .map(() => Array(cells).fill(false));
 
+// Picking random starting cell
+const startRow = Math.floor(Math.random() * cells);
+const startColumn = Math.floor(Math.random() * cells);
