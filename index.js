@@ -36,6 +36,19 @@ const walls = [
 World.add(world, walls);
 
 // Maze generation
+const shuffle = (arr) => {
+    let counter = arr.length;
+
+    while (counter > 0) {
+        const index = Math.floor(Math.random() * counter);
+        counter--;
+        const temp = arr[counter];
+        arr[counter] = arr[index];
+        arr[index] = temp;
+    }
+    return arr;
+}
+
 const grid = Array(cells)
     .fill(null)
     .map(() => Array(cells).fill(false));
@@ -57,18 +70,17 @@ const startColumn = Math.floor(Math.random() * cells);
 // Iterating through maze cells
 const stepThroughCell = (row, column) => {
 
-    console.log('before if');
     if(grid[row][column]) {
         return;
     }
     grid[row][column] = true;
-    const neighbors = [
+    const neighbors = shuffle([
         [row - 1, column],
-        [row, columt - 1],
+        [row, column - 1],
         [row + 1, column],
-        [row, column - 1]
-    ]
+        [row, column + 1]
+    ]);
 }
 
 stepThroughCell(startRow, startColumn);
-console.log(grid);
+
