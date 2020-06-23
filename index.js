@@ -4,7 +4,8 @@ const {
     Runner, 
     World, 
     Bodies,
-    Body
+    Body,
+    Events
 } = Matter;
 
 const cells = 3;
@@ -148,7 +149,8 @@ const goal = Bodies.rectangle(
     unitLength * 0.7,
     unitLength * 0.7, 
     {
-        isStatic: true
+        isStatic: true,
+        label: 'goal'
     }
     
 );
@@ -160,6 +162,7 @@ const ball = Bodies.circle(
     unitLength/2,
     unitLength*0.7/2,
     {
+        label: 'ball'
         //isStatic: true
     }
 )
@@ -168,7 +171,6 @@ World.add(world, ball);
 
 document.addEventListener('keydown', event => {
     const {x, y} = ball.velocity;
-
     if(event.keyCode === 87){
         Body.setVelocity(ball, {x, y:y-5})
     }
@@ -181,4 +183,14 @@ document.addEventListener('keydown', event => {
     if(event.keyCode === 65){
         Body.setVelocity(ball, {x: x-5, y})
     }
+})
+
+// win condition
+Events.on(engine, 'collisionStart', event => {
+    event.pairs.forEach((collision) => {
+        const labels = ['ball', 'goal'];
+        if(labels.includes(collision.bodyA.label) && labels.includes(collision.bodyB.label)){
+            console.log('User Won')
+        }
+    })
 })
