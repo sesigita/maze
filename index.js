@@ -8,7 +8,7 @@ const {
     Events
 } = Matter;
 
-const cells = 3;
+const cells = 6;
 const width = 600;
 const height = 600;
 
@@ -119,6 +119,7 @@ horizontals.forEach((row, rowIndex) => {
             rowIndex * unitLength + unitLength,
             unitLength,
             10, {
+                label: 'wall',
                 isStatic: true
             }
         );
@@ -135,7 +136,9 @@ verticals.forEach((row, rowIndex) => {
             columnIndex * unitLength + unitLength,
             rowIndex * unitLength + unitLength/2,
             10,
-            unitLength, {
+            unitLength, 
+            {
+                label: 'wall',
                 isStatic: true
             }
         );
@@ -160,10 +163,9 @@ World.add(world, goal);
 const ball = Bodies.circle(
     unitLength/2,
     unitLength/2,
-    unitLength*0.7/2,
+    unitLength*0.5/2,
     {
         label: 'ball'
-        //isStatic: true
     }
 )
 
@@ -189,8 +191,15 @@ document.addEventListener('keydown', event => {
 Events.on(engine, 'collisionStart', event => {
     event.pairs.forEach((collision) => {
         const labels = ['ball', 'goal'];
-        if(labels.includes(collision.bodyA.label) && labels.includes(collision.bodyB.label)){
-            console.log('User Won')
+        if(labels.includes(collision.bodyA.label) && 
+        labels.includes(collision.bodyB.label)){
+            world.gravity.y = 1;
+            world.bodies.forEach( body => {
+                if(body.label === 'wall') {
+                    Body.setStatic(body, false);
+                }
+            })
+
         }
     })
 })
